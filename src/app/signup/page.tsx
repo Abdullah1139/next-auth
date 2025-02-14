@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const router = useRouter();
@@ -13,6 +14,22 @@ const SignUp = () => {
     password: "",
   });
 
+  const [loading,setLoading]=useState(false)
+
+  const handleSignUp=async()=>{
+    try {
+      const response= await axios.post('/api/user/signup',user)
+      setLoading(true)
+      router.push('login')
+    } catch (error: any) {
+      console.log("signup failed",error.message)
+      toast.error(error.message)
+      
+    }finally{
+      setLoading(true)
+    }
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.id]: e.target.value });
   };
@@ -20,7 +37,7 @@ const SignUp = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h1 className="text-2xl font-bold text-center text-gray-800">Sign Up</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800">{loading?"Processing":"Sign Up"}</h1>
 
         <div className="mt-6 flex flex-col gap-4">
           {/* Username */}
@@ -69,7 +86,10 @@ const SignUp = () => {
           </div>
 
           {/* Sign Up Button */}
-          <button className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg mt-4 hover:bg-blue-600 transition duration-300">
+          <button 
+          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg mt-4 hover:bg-blue-600 transition duration-300"
+          onClick={handleSignUp}
+          >
             Sign Up
           </button>
 

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import toast from "react-hot-toast";
+
 
 const Login = () => {
   const router = useRouter();
@@ -15,7 +17,19 @@ const Login = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.id]: e.target.value });
   };
-  const handleLogin=()=>{
+  const handleLogin=async()=>{
+      try {
+        const response= await axios.post('http://localhost:3000/api/user/login',user)
+        console.log(response.data)
+        toast.success('Login Successfull')
+        router.push('/profile')
+
+      } catch (error: any) {
+        console.log(error.message);
+        toast.error(error.message)
+
+        
+      }
     console.log(user.email,user.password)
   }
   return (
