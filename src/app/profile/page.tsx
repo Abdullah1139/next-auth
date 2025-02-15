@@ -38,7 +38,7 @@ const Profile = () => {
         <h1>User Profile </h1>
         <h2>Welcome {profile==="nothing"?"Nothing":<Link href={`/profile/${profile}`}>
         
-        </Link>}{profile}</h2>
+        {profile}</Link>}</h2>
         <button 
         className=''
         onClick={handleLogout}>Logout</button>
