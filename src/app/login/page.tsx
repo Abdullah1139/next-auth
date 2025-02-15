@@ -26,10 +26,17 @@ const Login = () => {
 
       } catch (error: any) {
         console.log(error.message);
-        toast.error(error.message)
-
-        
+        // Show error toast
+     toast.error("Login Failed: " + (error.response?.data?.message || error.message), {
+          duration: 4000,
+          style: {
+            borderRadius: '8px',
+            background: '#d32f2f',
+            color: '#fff',
+          },
+        });
       }
+  
     console.log(user.email,user.password)
   }
   return (
